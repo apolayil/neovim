@@ -1,5 +1,4 @@
 return {
-
   { -- Linting
     'mfussenegger/nvim-lint',
     event = { 'BufReadPre', 'BufNewFile' },
@@ -8,7 +7,7 @@ return {
       lint.linters_by_ft = {
         markdown = { 'markdownlint' },
         c = { 'clangtidy' },
-        makefile = {'checkmake'},
+        makefile = { 'checkmake' },
       }
 
       -- To allow other plugins to add linters to require('lint').linters_by_ft,
