@@ -17,9 +17,6 @@ vim.g.have_nerd_font = true
 -- Make line numbers default
 vim.opt.number = true
 vim.opt.relativenumber = true
--- You can also add relative line numbers, for help with jumping.
---  Experiment for yourself to see if you like it!
--- vim.opt.relativenumber = true
 
 -- Enable mouse mode, can be useful for resizing splits for example!
 vim.opt.mouse = 'a'
@@ -28,9 +25,8 @@ vim.opt.mouse = 'a'
 vim.opt.showmode = false
 
 -- Sync clipboard between OS and Neovim.
-
 --  See `:help 'clipboard'`
-vim.opt.clipboard = 'unnamedplus'
+-- vim.opt.clipboard = 'unnamedplus' --> i prefer using seperate clipboard
 
 -- Enable break indent
 vim.opt.breakindent = true
@@ -179,7 +175,6 @@ require('lazy').setup {
   {
     -- Yanks to remoted in computer's clipboard,
     -- along with other yanking goodies
-    -- MAKES YANKING SMARTER - I LOVE THIS PLUGIN.
     'ibhagwan/smartyank.nvim',
     opts = {
       highlight = {
@@ -205,19 +200,6 @@ require('lazy').setup {
   -- options to `gitsigns.nvim`. This is equivalent to the following lua:
   --    require('gitsigns').setup({ ... })
   --
-  -- See `:help gitsigns` to understand what the configuration keys do
-  { -- Adds git related signs to the gutter, as well as utilities for managing changes
-    'lewis6991/gitsigns.nvim',
-    opts = {
-      signs = {
-        add = { text = '+' },
-        change = { text = '~' },
-        delete = { text = '_' },
-        topdelete = { text = '‾' },
-        changedelete = { text = '~' },
-      },
-    },
-  },
   -- NOTE: Plugins can also be configured to run lua code when they are loaded.
   --
   -- This is often very useful to both group configuration, as well as handle
@@ -263,4 +245,5 @@ require('lazy').setup {
   require 'plugins.precognition',
   require 'plugins.hardtime',
   require 'plugins.auto-dark-mode',
+  require 'plugins.lualine',
 }
