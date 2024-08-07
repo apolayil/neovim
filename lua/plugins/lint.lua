@@ -44,13 +44,33 @@ return {
 
       -- Create autocommand which carries out the actual linting
       -- on the specified events.
+      
+      -- Variable to track linting state
+      local linting_enabled = true
+
+      -- Function to toggle linting
+      local function toggle_linting()
+        linting_enabled = not linting_enabled
+        -- local current_buf = vim.api.nvim_get_current_buf()
+        if linting_enabled then
+          print("Linting enabled")
+          lint.try_lint()
+        else
+          print("Linting disabled")
+          vim.diagnostic.reset(nil, current_buf)
+        end
+      end
+
       local lint_augroup = vim.api.nvim_create_augroup('lint', { clear = true })
       vim.api.nvim_create_autocmd({ 'BufEnter', 'BufWritePost', 'InsertLeave' }, {
         group = lint_augroup,
         callback = function()
-          require('lint').try_lint()
+          lint.try_lint()
         end,
       })
+            vim.keymap.set("n", "<leader>tl", toggle_linting, { desc = "Toggle Linting" })
+
     end,
   },
 }
+
