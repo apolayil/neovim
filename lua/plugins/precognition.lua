@@ -1,6 +1,6 @@
 return {
-    "tris203/precognition.nvim",
-    config = {
+  'tris203/precognition.nvim',
+  opts = {
     -- startVisible = true,
     -- showBlankVirtLine = true,
     -- highlightColor = "Comment",
@@ -23,5 +23,5 @@ return {
     --     PrevParagraph = { text = "{", prio = 1 },
     --     NextParagraph = { text = "}", prio = 1 },
     -- },
-    },
+  },
 }
