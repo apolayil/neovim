@@ -195,6 +195,8 @@ require('lazy').setup {
   --    require('Comment').setup({})
 
   -- "gc" to comment visual regions/lines
+  -- See :h commenting, neovim has there own commenting tool, I'll keep
+  -- comment.nvim for now, as i prefer it.
   { 'numToStr/Comment.nvim', opts = {} },
   -- { '/mg979/vim-visual-multi' },
 
