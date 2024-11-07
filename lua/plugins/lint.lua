@@ -44,7 +44,7 @@ return {
 
       -- Create autocommand which carries out the actual linting
       -- on the specified events.
-      
+
       -- Variable to track linting state
       local linting_enabled = true
 
@@ -53,10 +53,15 @@ return {
         linting_enabled = not linting_enabled
         -- local current_buf = vim.api.nvim_get_current_buf()
         if linting_enabled then
-          print("Linting enabled")
-          lint.try_lint()
+          print 'Linting enabled'
+          -- Only run the linter in buffers that you can modify in order to
+          -- avoid superfluous noise, notably within the handy LSP pop-ups that
+          -- describe the hovered symbol using Markdown.
+          if vim.opt_local.modifiable:get() then
+            lint.try_lint()
+          end
         else
-          print("Linting disabled")
+          print 'Linting disabled'
           vim.diagnostic.reset(nil, current_buf)
         end
       end
@@ -68,9 +73,7 @@ return {
           lint.try_lint()
         end,
       })
-            vim.keymap.set("n", "<leader>tl", toggle_linting, { desc = "Toggle Linting" })
-
+      vim.keymap.set('n', '<leader>tl', toggle_linting, { desc = 'Toggle Linting' })
     end,
   },
 }
-
