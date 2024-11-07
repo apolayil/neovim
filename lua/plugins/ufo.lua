@@ -1,28 +1,50 @@
+-- Add this to your plugins setup in kickstart.nvim
 return {
   'kevinhwang91/nvim-ufo',
   dependencies = 'kevinhwang91/promise-async',
-  opt = function()
-    -- Example configuration:
-    vim.o.foldcolumn = '1' -- '1' is the default value, showing the fold column on the side.
-    vim.o.foldlevel = 99 -- Leave all folds open.
-    vim.o.foldlevelstart = 99 -- Start with everything open.
-    vim.o.foldenable = true -- Enable folding.
+  opts = {
+    open_fold_hl_timeout = 150, -- Time in milliseconds to highlight the opened fold
+    close_fold_kinds_for_ft = { -- Specify fold kinds to close for specific file types
+      default = { 'imports', 'comment' }, -- Default behavior for all file types
+      json = { 'array' }, -- Close 'array' folds for JSON files
+      c = { 'array', 'comment' }, -- Close 'comment' and 'region' folds for C files
+    },
+  },
+  config = function(_, opts)
+    -- General fold settings
+    vim.o.foldcolumn = '1'
+    vim.o.foldlevel = 99
+    vim.o.foldlevelstart = 99
+    vim.o.foldenable = true
 
-    -- Using ufo provider in nvim as much as possible
+    -- Keymaps for folding
+    vim.keymap.set('n', 'zR', require('ufo').openAllFolds)
+    vim.keymap.set('n', 'zM', require('ufo').closeAllFolds)
+
+    vim.keymap.set('n', 'K', function()
+      local winid = require('ufo').peekFoldedLinesUnderCursor()
+      if not winid then
+        -- choose one of coc.nvim and nvim lsp
+        -- vim.fn.CocActionAsync 'definitionHover' -- coc.nvim
+        vim.lsp.buf.hover()
+      end
+    end)
+
     local capabilities = vim.lsp.protocol.make_client_capabilities()
     capabilities.textDocument.foldingRange = {
       dynamicRegistration = false,
       lineFoldingOnly = true,
     }
 
-    local language_servers = require('lspconfig').util.available_servers() -- or list servers manually like {'gopls', 'clangd'}
+    -- Setup LSP servers with folding capabilities
+    local language_servers = require('lspconfig').util.available_servers()
     for _, ls in ipairs(language_servers) do
       require('lspconfig')[ls].setup {
         capabilities = capabilities,
-        -- you can add other fields for setting up lsp server in this table
       }
     end
 
-    require('ufo').setup()
+    -- Setup ufo
+    require('ufo').setup(opts)
   end,
 }
